@@ -24,6 +24,7 @@ namespace OOPConsole.Models
 
         private void DisplayMenu(User user)
         {
+            Console.WriteLine("Press any key");
             Console.ReadKey();
             Console.Clear();
             Console.WriteLine($"Welcome user: {user.Name} at {RegularATMName}");
@@ -145,6 +146,7 @@ namespace OOPConsole.Models
 
         private void DisplayMenu(User user)
         {
+            Console.WriteLine("Press any key");
             Console.ReadKey();
             Console.Clear();
             Console.WriteLine($"Welcome {user.Name} at special Deposit ATM: {DepositATMName}");
