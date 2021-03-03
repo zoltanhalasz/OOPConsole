@@ -7,12 +7,7 @@ namespace OOPConsole.Models
 {
     public interface IATM
     {
-        void WithDraw(User user, decimal amount);
-        void Deposit(User user, decimal amount);
-        void Authenticate(User user);
-        void EjectCard(User user);
-        void ShowTransactions(User user);        
-        void ShowTransactions();
+        void ExecuteMenu(User user);
     }
 
     public class RegularATM: IATM
@@ -26,7 +21,37 @@ namespace OOPConsole.Models
             RegularATMName = name;
             Transactions = new List<Transaction>();
         }
-        public void Authenticate(User user)
+
+        private void DisplayMenu()
+        {
+            Console.WriteLine("1. Authenticate ");
+            Console.WriteLine("2. Withdraw ");
+            Console.WriteLine("3. ShowTransactions - for user ");
+            Console.WriteLine("4. ShowTransactions - for all users ");
+            Console.WriteLine("5. Eject card");
+            Console.WriteLine("6. Leave atm");
+            Console.WriteLine("--Choose a number\n");
+        }
+
+        public void ExecuteMenu(User user)
+        {
+            DisplayMenu();
+            int k = int.Parse(Console.ReadLine());
+            if (k == 1) Authenticate(user);
+            if (k == 2) 
+            {
+                Console.WriteLine("\nAmount\n");
+                decimal amount = decimal.Parse(Console.ReadLine());
+                WithDraw(user, amount);
+            }
+            if (k == 3) ShowTransactions(user);
+            if (k == 4) ShowAllTransactions(user);
+            if (k == 5) EjectCard(user);
+            if (k == 6) return;            
+        }
+
+
+        private void Authenticate(User user)
         {
             if (user.PIN>100 && user.PIN<1000)
             {
@@ -38,10 +63,10 @@ namespace OOPConsole.Models
                 Console.WriteLine($"{user.Name} could not be authenticated at  regulare {RegularATMName}");
                 isAuthenticated = false;
             }
-            
-        }        
+            ExecuteMenu(user);
+        }
 
-        public void WithDraw(User user, decimal amount)
+        private void WithDraw(User user, decimal amount)
         {
             if (isAuthenticated)
             {
@@ -53,9 +78,10 @@ namespace OOPConsole.Models
             {
                 Console.WriteLine($"{user.Name} could not be authenticated at  {RegularATMName}");
             }
+            ExecuteMenu(user);
         }
 
-        public void EjectCard(User user)
+        private void EjectCard(User user)
         {
             if (isAuthenticated == true)
             {
@@ -66,17 +92,17 @@ namespace OOPConsole.Models
             {
                 Console.WriteLine($"{user.CardNumber} has to authenticate first at {RegularATMName}");
             }
-            
+            ExecuteMenu(user);
         }
 
 
-        public void Deposit(User user, decimal amount)
+        private void Deposit(User user, decimal amount)
         {
             Console.WriteLine($"{RegularATMName}  cannot be used for deposits at regular ATM.");
         }
 
 
-        public void ShowTransactions(User user)
+        private void ShowTransactions(User user)
         {
             var filteredTransactions = Transactions.Where(x=> x.User == user).ToList();
             Console.WriteLine($"{RegularATMName}  Transactions for User {user.Name} at regular ATM");
@@ -85,10 +111,11 @@ namespace OOPConsole.Models
                 Console.WriteLine(transaction.Print);
             }
             Console.WriteLine("----------");
+            ExecuteMenu(user);
         }
 
 
-        public void ShowTransactions()
+        private void ShowAllTransactions(User user)
         {            
             Console.WriteLine($"{RegularATMName} Transactions for All Users at regular ATM");
             foreach (var transaction in Transactions)
@@ -96,6 +123,7 @@ namespace OOPConsole.Models
                 Console.WriteLine(transaction.Print);
             }
             Console.WriteLine("----------");
+            ExecuteMenu(user);
         }
     }
 
@@ -111,7 +139,42 @@ namespace OOPConsole.Models
             DepositATMName = name;
             Transactions = new List<Transaction>();
         }
-        public void Authenticate(User user)
+
+        private void DisplayMenu()
+        {
+            Console.WriteLine("1. Authenticate ");
+            Console.WriteLine("2. Withdraw ");
+            Console.WriteLine("3. ShowTransactions - for user ");
+            Console.WriteLine("4. ShowTransactions - for all users ");
+            Console.WriteLine("5. Deposit ");
+            Console.WriteLine("6. Eject card");
+            Console.WriteLine("7. Leave atm");
+            Console.WriteLine("--Choose a number\n");
+        }
+
+        public void ExecuteMenu(User user)
+        {
+            DisplayMenu();
+            int k = int.Parse(Console.ReadLine());
+            if (k == 1) Authenticate(user);
+            if (k == 2)
+            {
+                Console.WriteLine("\nAmount\n");
+                decimal amount = decimal.Parse(Console.ReadLine());
+                WithDraw(user, amount);
+            }
+            if (k == 3) ShowTransactions(user);
+            if (k == 4) ShowAllTransactions(user);
+            if (k == 5) 
+            {
+                Console.WriteLine("\nAmount for deposit:\n");
+                decimal amount = decimal.Parse(Console.ReadLine());
+                Deposit(user, amount);
+            }
+            if (k == 6) EjectCard(user);
+            if (k == 7) return;
+        }
+        private void Authenticate(User user)
         {
             if (user.PIN > 200 && user.PIN < 800)
             {
@@ -123,10 +186,10 @@ namespace OOPConsole.Models
                 Console.WriteLine($"{user.Name} could not be authenticated at  {DepositATMName}");
                 isAuthenticated = false;
             }
-
+            ExecuteMenu(user);
         }
 
-        public void WithDraw(User user, decimal amount)
+        private void WithDraw(User user, decimal amount)
         {
             if (isAuthenticated)
             {
@@ -138,9 +201,10 @@ namespace OOPConsole.Models
             {
                 Console.WriteLine($"{user.Name} could not be authenticated at  {DepositATMName}");
             }
+            ExecuteMenu(user);
         }
 
-        public void EjectCard(User user)
+        private void EjectCard(User user)
         {
             if (isAuthenticated == true)
             {
@@ -151,11 +215,11 @@ namespace OOPConsole.Models
             {
                 Console.WriteLine($"{user.CardNumber} has to authenticate first at {DepositATMName}");
             }
-
+            ExecuteMenu(user);
         }
 
 
-        public void Deposit(User user, decimal amount)
+        private void Deposit(User user, decimal amount)
         {
             if (isAuthenticated)
             {
@@ -167,10 +231,11 @@ namespace OOPConsole.Models
             {
                 Console.WriteLine($"{user.Name} could not be authenticated at  {DepositATMName}");
             }
+            ExecuteMenu(user);
         }
 
 
-        public void ShowTransactions(User user)
+        private void ShowTransactions(User user)
         {
             var filteredTransactions = Transactions.Where(x => x.User == user).ToList();
             Console.WriteLine($"{DepositATMName}  Transactions for User {user.Name} at deposit ATM");
@@ -179,10 +244,11 @@ namespace OOPConsole.Models
                 Console.WriteLine(transaction.Print);
             }
             Console.WriteLine("----------");
+            ExecuteMenu(user);
         }
 
 
-        public void ShowTransactions()
+        private void ShowAllTransactions(User user)
         {
             Console.WriteLine($"{DepositATMName} Transactions for All Users at deposit ATM");
             foreach (var transaction in Transactions)
@@ -190,6 +256,7 @@ namespace OOPConsole.Models
                 Console.WriteLine(transaction.Print);
             }
             Console.WriteLine("----------");
+            ExecuteMenu(user);
         }
     }
 }
