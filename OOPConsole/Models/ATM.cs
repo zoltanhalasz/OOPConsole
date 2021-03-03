@@ -22,8 +22,11 @@ namespace OOPConsole.Models
             Transactions = new List<Transaction>();
         }
 
-        private void DisplayMenu()
+        private void DisplayMenu(User user)
         {
+            Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine($"Welcome user: {user.Name} at {RegularATMName}");
             Console.WriteLine("1. Authenticate ");
             Console.WriteLine("2. Withdraw ");
             Console.WriteLine("3. ShowTransactions - for user ");
@@ -35,7 +38,7 @@ namespace OOPConsole.Models
 
         public void ExecuteMenu(User user)
         {
-            DisplayMenu();
+            DisplayMenu(user);
             int k = int.Parse(Console.ReadLine());
             if (k == 1) Authenticate(user);
             if (k == 2) 
@@ -140,8 +143,11 @@ namespace OOPConsole.Models
             Transactions = new List<Transaction>();
         }
 
-        private void DisplayMenu()
+        private void DisplayMenu(User user)
         {
+            Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine($"Welcome {user.Name} at special Deposit ATM: {DepositATMName}");
             Console.WriteLine("1. Authenticate ");
             Console.WriteLine("2. Withdraw ");
             Console.WriteLine("3. ShowTransactions - for user ");
@@ -154,7 +160,7 @@ namespace OOPConsole.Models
 
         public void ExecuteMenu(User user)
         {
-            DisplayMenu();
+            DisplayMenu(user);
             int k = int.Parse(Console.ReadLine());
             if (k == 1) Authenticate(user);
             if (k == 2)
