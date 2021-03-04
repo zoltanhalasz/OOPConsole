@@ -51,7 +51,21 @@ namespace OOPConsole.Models
             if (k == 3) ShowTransactions(user);
             if (k == 4) ShowAllTransactions(user);
             if (k == 5) EjectCard(user);
-            if (k == 6) return;            
+            if (k == 6) 
+            {
+                if (isAuthenticated) 
+                {                    
+                    Console.WriteLine("\nPlease eject your card first, as you are authenticated.\n");
+                    ExecuteMenu(user);
+                }
+                else
+                {
+                    Console.WriteLine("\nThanks for using our services, bye.\n");                    
+                    return;
+                }
+
+            }
+                      
         }
 
 
@@ -180,7 +194,20 @@ namespace OOPConsole.Models
                 Deposit(user, amount);
             }
             if (k == 6) EjectCard(user);
-            if (k == 7) return;
+            if (k == 7)
+            {
+                if (isAuthenticated)
+                {
+                    Console.WriteLine("\nPlease eject your card first, as you are authenticated.\n");
+                    ExecuteMenu(user);
+                }
+                else
+                {
+                    Console.WriteLine("\nThanks for using our services, bye.\n");
+                    return;
+                }
+            }
+                
         }
         private void Authenticate(User user)
         {
